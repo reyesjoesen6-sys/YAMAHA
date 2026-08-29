@@ -1,1164 +1,659 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 
-  <base target="_top">
+    <meta charset="UTF-8">
 
-  <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+    <title>YAMAHA Store</title>
 
-  <title>YAMAHA Store</title>
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  >
-
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<!-- ==================================================
-     LOADING
-================================================== -->
+<!-- =========================
+     NAVIGATION
+========================= -->
 
-<div id="loadingScreen" class="loading-screen">
+<header class="navbar">
 
-  <div class="loader"></div>
-
-  <h2>YAMAHA</h2>
-
-  <p>Loading Store...</p>
-
-</div>
-
-
-<!-- ==================================================
-     AUTH PAGE
-================================================== -->
-
-<div id="authPage" class="auth-page hidden">
-
-  <div class="auth-left">
-
-    <div class="brand-big">
-      YAMAHA
+    <div class="logo">
+        <span>YAMAHA</span>
+        <small>STORE</small>
     </div>
 
-    <h1>
-      Revs Your Heart
-    </h1>
-
-    <p>
-      Welcome to the YAMAHA Store Management System.
-    </p>
-
-  </div>
-
-
-  <div class="auth-card">
-
-    <div class="auth-logo">
-      YAMAHA
-    </div>
-
-    <h2 id="authTitle">
-      Customer Login
-    </h2>
-
-    <p id="authSubtitle">
-      Login to view Yamaha products.
-    </p>
-
-
-    <!-- CUSTOMER LOGIN -->
-
-    <form
-      id="customerLoginForm"
-      onsubmit="handleCustomerLogin(event)"
-    >
-
-      <div class="input-group">
-
-        <label>Gmail</label>
-
-        <input
-          type="email"
-          id="customerLoginEmail"
-          placeholder="your@gmail.com"
-          required
-        >
-
-      </div>
-
-
-      <div class="input-group">
-
-        <label>Password</label>
-
-        <input
-          type="password"
-          id="customerLoginPassword"
-          placeholder="Password"
-          required
-        >
-
-      </div>
-
-
-      <button class="primary-btn" type="submit">
-
-        <i class="fa-solid fa-right-to-bracket"></i>
-
-        Login
-
-      </button>
-
-    </form>
-
-
-    <!-- CUSTOMER REGISTER -->
-
-    <form
-      id="customerRegisterForm"
-      class="hidden"
-      onsubmit="handleCustomerRegister(event)"
-    >
-
-      <div class="input-group">
-
-        <label>Full Name</label>
-
-        <input
-          type="text"
-          id="registerName"
-          placeholder="Full Name"
-          required
-        >
-
-      </div>
-
-
-      <div class="input-group">
-
-        <label>Gmail</label>
-
-        <input
-          type="email"
-          id="registerEmail"
-          placeholder="your@gmail.com"
-          required
-        >
-
-      </div>
-
-
-      <div class="input-group">
-
-        <label>Password</label>
-
-        <input
-          type="password"
-          id="registerPassword"
-          placeholder="Minimum 6 characters"
-          required
-        >
-
-      </div>
-
-
-      <button class="primary-btn" type="submit">
-
-        <i class="fa-solid fa-user-plus"></i>
-
-        Create Account
-
-      </button>
-
-    </form>
-
-
-    <!-- ADMIN LOGIN -->
-
-    <form
-      id="adminLoginForm"
-      class="hidden"
-      onsubmit="handleAdminLogin(event)"
-    >
-
-      <div class="security-note">
-
-        <i class="fa-solid fa-shield-halved"></i>
-
-        Authorized Admin Only
-
-      </div>
-
-
-      <div class="input-group">
-
-        <label>Admin Gmail</label>
-
-        <input
-          type="email"
-          id="adminEmail"
-          placeholder="Admin Gmail"
-          required
-        >
-
-      </div>
-
-
-      <div class="input-group">
-
-        <label>Password</label>
-
-        <input
-          type="password"
-          id="adminPassword"
-          placeholder="Admin Password"
-          required
-        >
-
-      </div>
-
-
-      <button class="primary-btn" type="submit">
-
-        <i class="fa-solid fa-lock"></i>
-
-        Admin Login
-
-      </button>
-
-    </form>
-
-
-    <div class="auth-switch">
-
-      <button
-        onclick="showCustomerLogin()"
-        id="loginSwitch"
-      >
-        Customer Login
-      </button>
-
-      <button
-        onclick="showCustomerRegister()"
-        id="registerSwitch"
-      >
-        Create Account
-      </button>
-
-      <button
-        onclick="showAdminLogin()"
-        id="adminSwitch"
-      >
-        Admin
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- ==================================================
-     OTP MODAL
-================================================== -->
-
-<div
-  id="otpModal"
-  class="modal hidden"
->
-
-  <div class="modal-card">
-
-    <div class="otp-icon">
-
-      <i class="fa-solid fa-envelope-circle-check"></i>
-
-    </div>
-
-    <h2>Gmail Verification</h2>
-
-    <p>
-      Enter the 6-digit OTP sent to your Gmail.
-    </p>
-
-    <input
-      type="text"
-      id="otpInput"
-      maxlength="6"
-      placeholder="000000"
-      class="otp-input"
-    >
-
-    <button
-      class="primary-btn"
-      onclick="verifyCurrentOTP()"
-    >
-      Verify OTP
-    </button>
-
-    <button
-      class="text-btn"
-      onclick="closeOTP()"
-    >
-      Cancel
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- ==================================================
-     ADMIN SYSTEM
-================================================== -->
-
-<div
-  id="adminSystem"
-  class="system hidden"
->
-
-  <aside class="sidebar">
-
-    <div class="sidebar-logo">
-      YAMAHA
-    </div>
-
-    <div class="user-box">
-
-      <div class="avatar">
-        <i class="fa-solid fa-user-shield"></i>
-      </div>
-
-      <div>
-
-        <strong>Administrator</strong>
-
-        <small id="adminUserEmail">
-          Admin
-        </small>
-
-      </div>
-
-    </div>
-
-
-    <nav>
-
-      <button
-        class="nav-item active"
-        onclick="adminNavigate('dashboard')"
-      >
-        <i class="fa-solid fa-chart-line"></i>
-        Dashboard
-      </button>
-
-
-      <button
-        class="nav-item"
-        onclick="adminNavigate('products')"
-      >
-        <i class="fa-solid fa-motorcycle"></i>
-        Products
-      </button>
-
-
-      <button
-        class="nav-item"
-        onclick="adminNavigate('customers')"
-      >
-        <i class="fa-solid fa-users"></i>
-        Customers
-      </button>
-
-
-      <button
-        class="nav-item"
-        onclick="adminNavigate('inventory')"
-      >
-        <i class="fa-solid fa-boxes-stacked"></i>
-        Inventory
-      </button>
-
-
-      <button
-        class="nav-item"
-        onclick="adminNavigate('logs')"
-      >
-        <i class="fa-solid fa-shield-halved"></i>
-        Activity Logs
-      </button>
+    <nav id="mainNav">
+
+        <button onclick="showPage('home')">
+            Home
+        </button>
+
+        <button onclick="showPage('productsPage')">
+            Products
+        </button>
+
+        <button onclick="showPage('cartPage')">
+            Cart
+            <span id="cartCount">0</span>
+        </button>
+
+        <button onclick="showPage('ordersPage')">
+            My Orders
+        </button>
+
+        <button id="adminNavBtn"
+                onclick="showPage('adminPage')"
+                class="hidden">
+            Admin
+        </button>
+
+        <button onclick="logout()">
+            Logout
+        </button>
 
     </nav>
 
-
-    <button
-      class="logout-btn"
-      onclick="logoutUser()"
-    >
-      <i class="fa-solid fa-right-from-bracket"></i>
-      Logout
-    </button>
-
-  </aside>
+</header>
 
 
-  <main class="main-content">
+<!-- =========================
+     LANDING / LOGIN
+========================= -->
 
-    <header class="topbar">
+<section id="authPage" class="auth-container">
 
-      <div>
+    <div class="auth-card">
 
-        <span class="page-label">
-          YAMAHA STORE
-        </span>
-
-        <h1 id="adminPageTitle">
-          Dashboard
-        </h1>
-
-      </div>
-
-      <div class="security-status">
-
-        <i class="fa-solid fa-circle-check"></i>
-
-        Secure Session
-
-      </div>
-
-    </header>
-
-
-    <!-- ADMIN DASHBOARD -->
-
-    <section
-      id="admin-dashboard"
-      class="admin-section"
-    >
-
-      <div class="stats-grid">
-
-        <div class="stat-card">
-
-          <div class="stat-icon">
-            <i class="fa-solid fa-motorcycle"></i>
-          </div>
-
-          <div>
-
-            <span>Total Products</span>
-
-            <strong id="statProducts">
-              0
-            </strong>
-
-          </div>
-
+        <div class="auth-logo">
+            YAMAHA
         </div>
 
+        <h1>Yamaha Store</h1>
 
-        <div class="stat-card">
-
-          <div class="stat-icon">
-            <i class="fa-solid fa-users"></i>
-          </div>
-
-          <div>
-
-            <span>Total Customers</span>
-
-            <strong id="statCustomers">
-              0
-            </strong>
-
-          </div>
-
-        </div>
+        <p class="subtitle">
+            Motorcycle Online Store
+        </p>
 
 
-        <div class="stat-card">
+        <!-- CUSTOMER LOGIN -->
 
-          <div class="stat-icon">
-            <i class="fa-solid fa-box"></i>
-          </div>
+        <div id="customerLoginBox">
 
-          <div>
+            <h2>Customer Login</h2>
 
-            <span>Total Stock</span>
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Gmail"
+            >
 
-            <strong id="statStock">
-              0
-            </strong>
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Password"
+            >
 
-          </div>
-
-        </div>
-
-
-        <div class="stat-card warning">
-
-          <div class="stat-icon">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-          </div>
-
-          <div>
-
-            <span>Low Stock</span>
-
-            <strong id="statLowStock">
-              0
-            </strong>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="dashboard-panel">
-
-        <div class="panel-title">
-
-          <div>
-            <h2>YAMAHA Store</h2>
-            <p>Management System Overview</p>
-          </div>
-
-          <button
-            class="primary-small"
-            onclick="openProductModal()"
-          >
-            <i class="fa-solid fa-plus"></i>
-            Add Product
-          </button>
-
-        </div>
-
-
-        <div class="welcome-box">
-
-          <i class="fa-solid fa-shield-heart"></i>
-
-          <div>
-
-            <h3>Secure Administration</h3>
+            <button
+                class="primary-btn"
+                onclick="customerLogin()">
+                Login
+            </button>
 
             <p>
-              All product modifications require
-              administrator passcode verification.
+                No account?
+                <a href="#" onclick="showRegister()">
+                    Create Customer Account
+                </a>
             </p>
 
-          </div>
+            <hr>
+
+            <button
+                class="admin-link"
+                onclick="showAdminLogin()">
+                Admin Login
+            </button>
 
         </div>
 
-      </div>
+
+        <!-- CUSTOMER REGISTER -->
+
+        <div id="registerBox" class="hidden">
+
+            <h2>Create Customer Account</h2>
+
+            <input
+                type="text"
+                id="registerName"
+                placeholder="Full Name"
+            >
+
+            <input
+                type="email"
+                id="registerEmail"
+                placeholder="Gmail"
+            >
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Password"
+            >
+
+            <button
+                class="primary-btn"
+                onclick="registerCustomer()">
+                Create Account
+            </button>
+
+            <p>
+                Already registered?
+                <a href="#" onclick="showLogin()">
+                    Login
+                </a>
+            </p>
+
+        </div>
+
+
+        <!-- CUSTOMER OTP -->
+
+        <div id="customerOTPBox" class="hidden">
+
+            <div class="security-icon">
+                🔐
+            </div>
+
+            <h2>Gmail Verification</h2>
+
+            <p>
+                Enter the 6-digit OTP sent to your Gmail.
+            </p>
+
+            <input
+                type="text"
+                id="customerOTP"
+                maxlength="6"
+                placeholder="000000"
+            >
+
+            <button
+                class="primary-btn"
+                onclick="verifyCustomerOTP()">
+                Verify OTP
+            </button>
+
+            <button
+                class="secondary-btn"
+                onclick="resendCustomerOTP()">
+                Resend OTP
+            </button>
+
+        </div>
+
+
+        <!-- ADMIN LOGIN -->
+
+        <div id="adminLoginBox" class="hidden">
+
+            <div class="security-icon">
+                🛡️
+            </div>
+
+            <h2>Admin Security</h2>
+
+            <p>
+                Authorized administrators only.
+            </p>
+
+            <input
+                type="email"
+                id="adminEmail"
+                placeholder="Admin Gmail"
+            >
+
+            <input
+                type="password"
+                id="adminPassword"
+                placeholder="Admin Password"
+            >
+
+            <button
+                class="primary-btn"
+                onclick="adminLogin()">
+                Continue
+            </button>
+
+            <button
+                class="secondary-btn"
+                onclick="showLogin()">
+                Back
+            </button>
+
+        </div>
+
+
+        <!-- ADMIN OTP -->
+
+        <div id="adminOTPBox" class="hidden">
+
+            <div class="security-icon">
+                📧
+            </div>
+
+            <h2>Admin OTP</h2>
+
+            <p>
+                Check the authorized admin Gmail.
+            </p>
+
+            <input
+                type="text"
+                id="adminOTP"
+                maxlength="6"
+                placeholder="6-digit OTP"
+            >
+
+            <button
+                class="primary-btn"
+                onclick="verifyAdminOTP()">
+                Verify OTP
+            </button>
+
+        </div>
+
+
+        <!-- ADMIN PASSCODE -->
+
+        <div id="adminPasscodeBox" class="hidden">
+
+            <div class="security-icon">
+                🔑
+            </div>
+
+            <h2>Admin Passcode</h2>
+
+            <p>
+                Final security verification required.
+            </p>
+
+            <input
+                type="password"
+                id="adminPasscode"
+                placeholder="Enter Passcode"
+            >
+
+            <button
+                class="primary-btn"
+                onclick="verifyAdminPasscode()">
+                Unlock Admin
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MAIN APPLICATION
+========================= -->
+
+<main id="app" class="hidden">
+
+
+    <!-- HOME / DASHBOARD -->
+
+    <section id="home" class="page">
+
+        <div class="hero">
+
+            <div>
+                <p class="hero-small">
+                    WELCOME TO
+                </p>
+
+                <h1>
+                    YAMAHA STORE
+                </h1>
+
+                <p>
+                    Find your next motorcycle
+                    with Yamaha quality and performance.
+                </p>
+
+                <button
+                    class="primary-btn"
+                    onclick="showPage('productsPage')">
+                    Shop Now
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="section-title">
+            <h2>Featured Products</h2>
+        </div>
+
+        <div
+            id="featuredProducts"
+            class="product-grid">
+        </div>
 
     </section>
 
 
     <!-- PRODUCTS -->
 
-    <section
-      id="admin-products"
-      class="admin-section hidden"
-    >
+    <section id="productsPage" class="page hidden">
 
-      <div class="section-header">
+        <div class="section-title">
 
-        <div>
-          <h2>Product Management</h2>
-          <p>Manage Yamaha products.</p>
+            <div>
+                <p class="hero-small">
+                    YAMAHA COLLECTION
+                </p>
+
+                <h2>Our Products</h2>
+            </div>
+
+            <input
+                type="text"
+                id="productSearch"
+                placeholder="Search motorcycle..."
+                oninput="searchProducts()"
+            >
+
         </div>
+
+        <div
+            id="productsGrid"
+            class="product-grid">
+        </div>
+
+    </section>
+
+
+    <!-- CART -->
+
+    <section id="cartPage" class="page hidden">
+
+        <div class="section-title">
+            <h2>Shopping Cart</h2>
+        </div>
+
+        <div id="cartItems"></div>
+
+        <div class="cart-summary">
+
+            <h3>
+                Total:
+                ₱<span id="cartTotal">0</span>
+            </h3>
+
+            <button
+                class="primary-btn"
+                onclick="checkout()">
+                Place Order
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ORDERS -->
+
+    <section id="ordersPage" class="page hidden">
+
+        <div class="section-title">
+            <h2>My Orders</h2>
+        </div>
+
+        <div id="customerOrders"></div>
+
+    </section>
+
+
+    <!-- ADMIN -->
+
+    <section id="adminPage" class="page hidden">
+
+        <div class="admin-header">
+
+            <div>
+
+                <p class="hero-small">
+                    SECURE ADMIN PANEL
+                </p>
+
+                <h1>
+                    Admin Dashboard
+                </h1>
+
+                <p id="adminName"></p>
+
+            </div>
+
+            <button
+                class="danger-btn"
+                onclick="adminLogout()">
+                Lock Admin
+            </button>
+
+        </div>
+
+
+        <!-- ADMIN STATS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <span>🏍️</span>
+                <h3>Products</h3>
+                <strong id="statProducts">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>👥</span>
+                <h3>Customers</h3>
+                <strong id="statCustomers">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>📦</span>
+                <h3>Orders</h3>
+                <strong id="statOrders">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>💰</span>
+                <h3>Total Sales</h3>
+                <strong>
+                    ₱<span id="statSales">0</span>
+                </strong>
+            </div>
+
+        </div>
+
+
+        <!-- ADMIN PRODUCT MANAGEMENT -->
+
+        <div class="admin-section">
+
+            <div class="section-title">
+
+                <h2>Product Management</h2>
+
+                <button
+                    class="primary-btn"
+                    onclick="openProductModal()">
+                    + Add Product
+                </button>
+
+            </div>
+
+            <div
+                id="adminProducts"
+                class="admin-table-container">
+            </div>
+
+        </div>
+
+
+        <!-- ADMIN ORDERS -->
+
+        <div class="admin-section">
+
+            <div class="section-title">
+
+                <h2>Order Management</h2>
+
+            </div>
+
+            <div
+                id="adminOrders"
+                class="admin-table-container">
+            </div>
+
+        </div>
+
+
+        <!-- CUSTOMERS -->
+
+        <div class="admin-section">
+
+            <div class="section-title">
+
+                <h2>Customers</h2>
+
+            </div>
+
+            <div
+                id="adminCustomers"
+                class="admin-table-container">
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================
+     PRODUCT MODAL
+========================= -->
+
+<div id="productModal" class="modal hidden">
+
+    <div class="modal-card">
 
         <button
-          class="primary-small"
-          onclick="openProductModal()"
-        >
-          <i class="fa-solid fa-plus"></i>
-          Add Product
+            class="close-btn"
+            onclick="closeProductModal()">
+            ×
         </button>
 
-      </div>
-
-
-      <div class="search-box">
-
-        <i class="fa-solid fa-search"></i>
-
-        <input
-          type="text"
-          id="productSearch"
-          placeholder="Search products..."
-          oninput="filterAdminProducts()"
-        >
-
-      </div>
-
-
-      <div
-        id="adminProductGrid"
-        class="product-grid"
-      ></div>
-
-    </section>
-
-
-    <!-- CUSTOMERS -->
-
-    <section
-      id="admin-customers"
-      class="admin-section hidden"
-    >
-
-      <div class="section-header">
-
-        <div>
-          <h2>Customer Management</h2>
-          <p>Manage registered customers.</p>
-        </div>
-
-      </div>
-
-
-      <div class="table-container">
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>Customer ID</th>
-              <th>Name</th>
-              <th>Gmail</th>
-              <th>Status</th>
-              <th>Registered</th>
-              <th>Action</th>
-            </tr>
-
-          </thead>
-
-          <tbody id="customerTableBody"></tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-
-    <!-- INVENTORY -->
-
-    <section
-      id="admin-inventory"
-      class="admin-section hidden"
-    >
-
-      <div class="section-header">
-
-        <div>
-          <h2>Inventory</h2>
-          <p>Monitor Yamaha product stock.</p>
-        </div>
-
-      </div>
-
-
-      <div class="table-container">
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>Product</th>
-              <th>Category</th>
-              <th>Stock</th>
-              <th>Status</th>
-            </tr>
-
-          </thead>
-
-          <tbody id="inventoryTableBody"></tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-
-    <!-- LOGS -->
-
-    <section
-      id="admin-logs"
-      class="admin-section hidden"
-    >
-
-      <div class="section-header">
-
-        <div>
-          <h2>Activity & Security Logs</h2>
-          <p>Monitor system activities.</p>
-        </div>
-
-      </div>
-
-
-      <div class="table-container">
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>Date</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Action</th>
-              <th>Details</th>
-            </tr>
-
-          </thead>
-
-          <tbody id="logsTableBody"></tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-  </main>
-
-</div>
-
-
-<!-- ==================================================
-     CUSTOMER SYSTEM
-================================================== -->
-
-<div
-  id="customerSystem"
-  class="system hidden"
->
-
-  <aside class="sidebar customer-sidebar">
-
-    <div class="sidebar-logo">
-      YAMAHA
-    </div>
-
-    <div class="user-box">
-
-      <div class="avatar customer-avatar">
-        <i class="fa-solid fa-user"></i>
-      </div>
-
-      <div>
-
-        <strong id="customerName">
-          Customer
-        </strong>
-
-        <small id="customerEmail">
-          Customer
-        </small>
-
-      </div>
-
-    </div>
-
-
-    <nav>
-
-      <button
-        class="nav-item active"
-        onclick="customerNavigate('dashboard')"
-      >
-        <i class="fa-solid fa-chart-line"></i>
-        Dashboard
-      </button>
-
-
-      <button
-        class="nav-item"
-        onclick="customerNavigate('products')"
-      >
-        <i class="fa-solid fa-motorcycle"></i>
-        Products
-      </button>
-
-
-      <button
-        class="nav-item"
-        onclick="customerNavigate('account')"
-      >
-        <i class="fa-solid fa-user"></i>
-        My Account
-      </button>
-
-    </nav>
-
-
-    <button
-      class="logout-btn"
-      onclick="logoutUser()"
-    >
-      <i class="fa-solid fa-right-from-bracket"></i>
-      Logout
-    </button>
-
-  </aside>
-
-
-  <main class="main-content">
-
-    <header class="topbar">
-
-      <div>
-
-        <span class="page-label">
-          YAMAHA STORE
-        </span>
-
-        <h1 id="customerPageTitle">
-          Dashboard
-        </h1>
-
-      </div>
-
-      <div class="security-status">
-
-        <i class="fa-solid fa-shield"></i>
-
-        Customer Account
-
-      </div>
-
-    </header>
-
-
-    <!-- CUSTOMER DASHBOARD -->
-
-    <section
-      id="customer-dashboard"
-      class="customer-section"
-    >
-
-      <div class="customer-hero">
-
-        <div>
-
-          <span>WELCOME TO YAMAHA</span>
-
-          <h1 id="customerWelcome">
-            Welcome!
-          </h1>
-
-          <p>
-            Explore our Yamaha motorcycle collection.
-          </p>
-
-          <button
-            class="primary-small"
-            onclick="customerNavigate('products')"
-          >
-            Explore Products
-          </button>
-
-        </div>
-
-        <i class="fa-solid fa-motorcycle hero-bike"></i>
-
-      </div>
-
-    </section>
-
-
-    <!-- CUSTOMER PRODUCTS -->
-
-    <section
-      id="customer-products"
-      class="customer-section hidden"
-    >
-
-      <div class="section-header">
-
-        <div>
-          <h2>Yamaha Products</h2>
-          <p>Browse available products.</p>
-        </div>
-
-      </div>
-
-
-      <div class="search-box">
-
-        <i class="fa-solid fa-search"></i>
-
-        <input
-          type="text"
-          id="customerProductSearch"
-          placeholder="Search Yamaha products..."
-          oninput="filterCustomerProducts()"
-        >
-
-      </div>
-
-
-      <div
-        id="customerProductGrid"
-        class="product-grid"
-      ></div>
-
-    </section>
-
-
-    <!-- CUSTOMER ACCOUNT -->
-
-    <section
-      id="customer-account"
-      class="customer-section hidden"
-    >
-
-      <div class="account-card">
-
-        <div class="account-avatar">
-          <i class="fa-solid fa-user"></i>
-        </div>
-
-        <h2 id="accountName">
-          Customer
+        <h2 id="modalTitle">
+            Add Product
         </h2>
 
-        <p id="accountEmail">
-          email@gmail.com
-        </p>
+        <input
+            type="hidden"
+            id="productId"
+        >
 
-        <span class="account-status">
-          ACTIVE ACCOUNT
-        </span>
+        <label>Product Name</label>
 
-      </div>
-
-    </section>
-
-  </main>
-
-</div>
-
-
-<!-- ==================================================
-     PRODUCT MODAL
-================================================== -->
-
-<div
-  id="productModal"
-  class="modal hidden"
->
-
-  <div class="modal-card large-modal">
-
-    <div class="modal-header">
-
-      <div>
-
-        <h2 id="productModalTitle">
-          Add Product
-        </h2>
-
-        <p>
-          Product changes require admin passcode.
-        </p>
-
-      </div>
-
-      <button
-        class="close-btn"
-        onclick="closeProductModal()"
-      >
-        ×
-      </button>
-
-    </div>
-
-
-    <form
-      id="productForm"
-      onsubmit="saveProduct(event)"
-    >
-
-      <input
-        type="hidden"
-        id="productId"
-      >
-
-
-      <div class="form-grid">
-
-        <div class="input-group">
-
-          <label>Product Name</label>
-
-          <input
+        <input
             type="text"
             id="productName"
             placeholder="Yamaha NMAX"
-            required
-          >
-
-        </div>
-
-
-        <div class="input-group">
-
-          <label>Category</label>
-
-          <select id="productCategory">
-
-            <option>Motorcycle</option>
-            <option>Scooter</option>
-            <option>Sport Bike</option>
-            <option>Underbone</option>
-            <option>Accessories</option>
-
-          </select>
-
-        </div>
-
-
-        <div class="input-group">
-
-          <label>Price</label>
-
-          <input
-            type="number"
-            id="productPrice"
-            min="0"
-            step="0.01"
-            required
-          >
-
-        </div>
-
-
-        <div class="input-group">
-
-          <label>Stock</label>
-
-          <input
-            type="number"
-            id="productStock"
-            min="0"
-            required
-          >
-
-        </div>
-
-
-        <div class="input-group full">
-
-          <label>Image URL</label>
-
-          <input
-            type="url"
-            id="productImage"
-            placeholder="https://..."
-          >
-
-        </div>
-
-
-        <div class="input-group full">
-
-          <label>Description</label>
-
-          <textarea
-            id="productDescription"
-            rows="4"
-            placeholder="Product description..."
-          ></textarea>
-
-        </div>
-
-      </div>
-
-
-      <div class="passcode-box">
-
-        <i class="fa-solid fa-key"></i>
-
-        <div>
-
-          <strong>Admin Passcode Required</strong>
-
-          <span>
-            Required for Add, Update and Delete.
-          </span>
-
-        </div>
-
-        <input
-          type="password"
-          id="productPasscode"
-          placeholder="Enter passcode"
-          required
         >
 
-      </div>
+        <label>Category</label>
 
+        <select id="productCategory">
 
-      <button
-        type="submit"
-        class="primary-btn"
-      >
-        <i class="fa-solid fa-floppy-disk"></i>
-        Save Product
-      </button>
+            <option value="Scooter">
+                Scooter
+            </option>
 
-    </form>
+            <option value="Motorcycle">
+                Motorcycle
+            </option>
 
-  </div>
+            <option value="Sport">
+                Sport
+            </option>
+
+            <option value="Underbone">
+                Underbone
+            </option>
+
+        </select>
+
+        <label>Price</label>
+
+        <input
+            type="number"
+            id="productPrice"
+            placeholder="150000"
+        >
+
+        <label>Stock</label>
+
+        <input
+            type="number"
+            id="productStock"
+            placeholder="10"
+        >
+
+        <label>Description</label>
+
+        <textarea
+            id="productDescription"
+            placeholder="Product description">
+        </textarea>
+
+        <label>Image URL</label>
+
+        <input
+            type="text"
+            id="productImage"
+            placeholder="https://..."
+        >
+
+        <button
+            class="primary-btn"
+            onclick="saveProduct()">
+            Save Product
+        </button>
+
+    </div>
 
 </div>
 
 
-<!-- ==================================================
+<!-- =========================
      TOAST
-================================================== -->
+========================= -->
 
-<div
-  id="toast"
-  class="toast"
->
-
-  <i id="toastIcon" class="fa-solid fa-check"></i>
-
-  <span id="toastMessage">
-    Success
-  </span>
-
-</div>
+<div id="toast"></div>
 
 
 <script src="script.js"></script>
 
 </body>
+
 </html>
